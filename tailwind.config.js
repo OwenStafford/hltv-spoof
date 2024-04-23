@@ -53,6 +53,7 @@ module.exports = {
 				},
 				hltv: {
 					primary: 'hsl(var(--hltv-primary))',
+					dark: 'hsl(var(--hltv-dark))',
 				},
 			},
 			borderRadius: {
