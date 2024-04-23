@@ -8,6 +8,7 @@ import SearchBar from './search-bar';
 import SignIn from './sign-in';
 import { IconType } from '@/models/Icon';
 import Icon from '../icon/icon';
+import Link from 'next/link';
 
 interface Props {
 	className?: string;
@@ -46,19 +47,18 @@ const NavigationItem: React.FC<NavigationItemProps> = ({
 	return (
 		<div
 			className={cn(
-				'relative group flex flex-col justify-center w-full text-sm h-full items-center cursor-pointer hover:text-hltv-primary',
+				'relative group flex flex-col w-full h-full items-center justify-center',
 				className
 			)}
 		>
-			<a
-				href={navItem.path}
-				className='text-center flex items-center space-x-2'
-			>
-				<span>{navItem.label}</span>
-				{navItem.subItems && navItem.subItems.length > 0 && (
-					<Icon icon={IconType.CHEVRON_DOWN} size='xs' />
-				)}
-			</a>
+			<Link href={navItem.path} className='h-full w-full'>
+				<div className='flex text-sm cursor-pointer h-full space-x-2 w-full items-center justify-center hover:text-hltv-primary hover:bg-gray-100'>
+					<span>{navItem.label}</span>
+					{navItem.subItems && navItem.subItems.length > 0 && (
+						<Icon icon={IconType.CHEVRON_DOWN} size='xs' />
+					)}
+				</div>
+			</Link>
 			{navItem.subItems && navItem.subItems.length > 0 && (
 				<NavigationDropdown
 					className='hidden group-hover:block absolute left-0'
@@ -78,22 +78,25 @@ const NavigationDropdown: React.FC<NavigationDropdownProps> = ({
 	className,
 	navItems,
 }) => {
-	// Adjust the 'top-full' class or replace it with a specific value to position the dropdown
 	return (
 		<div
 			className={cn(
-				'top-full w-48 bg-white shadow-lg rounded-b-sm border border-gray-200 z-10', // mt-1 for a small gap
+				'top-full w-48 bg-white shadow-lg rounded-b-sm border border-gray-200 z-10 flex flex-col',
 				className
 			)}
 		>
 			{navItems.map((navItem, index) => (
-				<p
-					className={cn(
-						'text-black p-3 hover:cursor-pointer border border-t-[0.5px] border-t-gray-200 border-l-4 hover:border-l-hltv-primary border-l-white border-b-white border-r-white  hover:border-b-gray-100 hover:border-r-gray-100 hover:bg-gray-100 hover:text-hltv-primary'
-					)}
-				>
-					{navItem.label}
-				</p>
+				<Link key={index} href={navItem.path}>
+					<div
+						className={cn(
+							'text-black cursor-pointer p-3 hover:bg-gray-100 hover:text-hltv-primary text-sm',
+							'border border-t-[0.5px] border-l-4',
+							'border-white border-t-gray-200 hover:border-gray-100 hover:border-l-hltv-primary'
+						)}
+					>
+						{navItem.label}
+					</div>
+				</Link>
 			))}
 		</div>
 	);
